@@ -34,9 +34,16 @@ if resume_file and job_file:
     similarity = util.pytorch_cos_sim(resume_embedding, job_embedding)[0][0].item()
     match_score = round(similarity * 100, 2)
 
-    # Results
-    st.subheader(f"🤖 Match Score: {match_score}%")
+    # Display Match Score
+    st.markdown("### 🤖 Semantic Match Score")
+    if match_score >= 75:
+        st.success(f"✅ Excellent match! Your resume aligns very well.\n**Score: {match_score}%**")
+    elif match_score >= 50:
+        st.info(f"🟡 Moderate match – some alignment.\n**Score: {match_score}%**")
+    else:
+        st.warning(f"🔴 Low match – your resume may not fit this job well.\n**Score: {match_score}%**")
 
+    # Find missing keywords
     def find_missing_keywords(job_text, resume_text):
         job_words = set(job_text.lower().split())
         resume_words = set(resume_text.lower().split())
@@ -44,8 +51,10 @@ if resume_file and job_file:
         return sorted([w for w in missing if len(w) > 3])
 
     missing_keywords = find_missing_keywords(job_text, resume_text)
+
+    # Display Missing Keywords
+    st.markdown("### 🧩 Missing Keywords from Resume")
     if missing_keywords:
-        st.subheader("🧩 Missing Keywords:")
         st.write(", ".join(missing_keywords[:20]))
     else:
-        st.success("Great! No major missing keywords.")
+        st.success("No major keywords missing. Your resume is solid! 💪")

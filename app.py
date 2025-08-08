@@ -12,14 +12,10 @@ import pdfplumber
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-import os, streamlit as st
 from dotenv import load_dotenv
 from google import genai
 
 load_dotenv()  # enables .env for local dev
-
-st.write("Has secrets:", bool(st.secrets))
-st.write("Keys:", list(st.secrets.keys()))
 
 
 API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")

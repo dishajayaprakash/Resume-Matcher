@@ -1,30 +1,33 @@
-import os
+from typing import Dict
 import pdfplumber
-import docx
 
-def extract_text_from_pdf(file_path):
+# --- File reading ---
+
+def extract_text_from_pdf(file) -> str:
     text = ""
-    with pdfplumber.open(file_path) as pdf:
+    with pdfplumber.open(file) as pdf:
         for page in pdf.pages:
-            text += page.extract_text() + "\n"
-    return text
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+    return text.strip()
 
-def extract_text_from_docx(file_path):
-    doc = docx.Document(file_path)
-    text = "\n".join([para.text for para in doc.paragraphs])
-    return text
 
-def extract_text(file_path):
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File not found: {file_path}")
-    
-    ext = file_path.lower().split(".")[-1]
-    if ext == "pdf":
-        return extract_text_from_pdf(file_path)
-    elif ext == "docx":
-        return extract_text_from_docx(file_path)
-    elif ext == "txt":
-        with open(file_path, "r", encoding="utf-8") as f:
-            return f.read()
-    else:
-        raise ValueError("Unsupported file type. Use PDF, DOCX, or TXT.")
+def extract_text_from_txt(file) -> str:
+    raw = file.read()
+    return raw.decode("utf-8") if isinstance(raw, bytes) else raw
+
+
+def build_resume_dict(files) -> Dict[str, str]:
+    """Return {filename: text} for PDFs/TXTs; skip empties."""
+    out: Dict[str, str] = {}
+    for f in files:
+        f.seek(0)
+        txt = (
+            extract_text_from_pdf(f)
+            if f.type == "application/pdf"
+            else extract_text_from_txt(f)
+        )
+        if txt:
+            out[f.name] = txt
+    return out

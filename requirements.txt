@@ -1,5 +1,9 @@
 streamlit
+transformers
+torch
 pdfplumber
-python-docx
-sentence-transformers
+nltk
+gensim
 scikit-learn
+pypdf
+python-dotenv

@@ -3,7 +3,7 @@ from app.job_parser import extract_job_description
 from sentence_transformers import SentenceTransformer, util
 
 # Load resume
-resume_path = "data/resumes/Rebecca_Zhu.pdf"
+resume_path = "data/resumes/Disha_ResumeAIML.pdf"
 resume_text = extract_text(resume_path)
 print("\n--- RESUME TEXT ---\n")
 print(resume_text[:1000])

@@ -22,7 +22,7 @@ st.write("Has secrets:", bool(st.secrets))
 st.write("Keys:", list(st.secrets.keys()))
 
 
-# API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")
+API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")
 
 
 

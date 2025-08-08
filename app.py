@@ -18,7 +18,12 @@ from google import genai
 
 load_dotenv()  # enables .env for local dev
 
-API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")
+st.write("Has secrets:", bool(st.secrets))
+st.write("Keys:", list(st.secrets.keys()))
+
+
+# API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")
+
 
 
 client = genai.Client(api_key=API_KEY)

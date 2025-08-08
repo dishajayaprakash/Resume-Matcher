@@ -19,9 +19,7 @@ from google import genai
 load_dotenv()  # enables .env for local dev
 
 API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")
-if not API_KEY:
-    st.error("Missing GENAI_API_KEY. Add it in Streamlit Secrets or set an env var.")
-    st.stop()
+
 
 client = genai.Client(api_key=API_KEY)
 

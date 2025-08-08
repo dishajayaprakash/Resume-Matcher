@@ -12,14 +12,18 @@ import pdfplumber
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# ← NEW: Gemini client setup
+import os, streamlit as st
 from dotenv import load_dotenv
 from google import genai
 
-load_dotenv()
-client = genai.Client(
-    api_key="AIzaSyBRA8UFRa_wftVSZ7E3diHnrMOCLz3K-wY"  # or your actual key
-)
+load_dotenv()  # enables .env for local dev
+
+API_KEY = st.secrets.get("GENAI_API_KEY") or os.getenv("GENAI_API_KEY")
+if not API_KEY:
+    st.error("Missing GENAI_API_KEY. Add it in Streamlit Secrets or set an env var.")
+    st.stop()
+
+client = genai.Client(api_key=API_KEY)
 
 def get_gemini_response(prompt: str) -> str:
     resp = client.models.generate_content(

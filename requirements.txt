@@ -1,9 +1,9 @@
 streamlit
-transformers
-torch
+pandas
+numpy
 pdfplumber
-nltk
-gensim
+sentence-transformers
 scikit-learn
-pypdf
+torch
+google-genai
 python-dotenv
